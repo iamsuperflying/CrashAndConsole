@@ -16,6 +16,7 @@
 		DC1A405422C21F8500473701 /* RSDebugView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1A405322C21F8500473701 /* RSDebugView.m */; };
 		DC1A405722C30C5400473701 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1A405622C30C5400473701 /* UIView+Extension.m */; };
 		DC3E1C0A22CA3EA800BD51A5 /* NSObject+ModelToDict.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E1C0922CA3EA800BD51A5 /* NSObject+ModelToDict.m */; };
+		DC3E1C0D22CCE6D300BD51A5 /* NSObject+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E1C0C22CCE6D300BD51A5 /* NSObject+Model.m */; };
 		DC3FDC3722C70A6D0045B5E9 /* LPFRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3FDC3522C70A6D0045B5E9 /* LPFRootViewController.m */; };
 		DC3FDC3E22C73CE30045B5E9 /* NSObject+Invocation.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3FDC3922C73CE30045B5E9 /* NSObject+Invocation.m */; };
 		DC3FDC3F22C73CE30045B5E9 /* UIResponder+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3FDC3A22C73CE30045B5E9 /* UIResponder+Router.m */; };
@@ -52,6 +53,8 @@
 		DC2DFF0D22C7865100775866 /* LPFGeneric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LPFGeneric.h; sourceTree = "<group>"; };
 		DC3E1C0822CA3EA800BD51A5 /* NSObject+ModelToDict.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ModelToDict.h"; sourceTree = "<group>"; };
 		DC3E1C0922CA3EA800BD51A5 /* NSObject+ModelToDict.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ModelToDict.m"; sourceTree = "<group>"; };
+		DC3E1C0B22CCE6D300BD51A5 /* NSObject+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Model.h"; sourceTree = "<group>"; };
+		DC3E1C0C22CCE6D300BD51A5 /* NSObject+Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Model.m"; sourceTree = "<group>"; };
 		DC3FDC3522C70A6D0045B5E9 /* LPFRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPFRootViewController.m; sourceTree = "<group>"; };
 		DC3FDC3622C70A6D0045B5E9 /* LPFRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPFRootViewController.h; sourceTree = "<group>"; };
 		DC3FDC3822C73CE30045B5E9 /* UIButton+LPFExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+LPFExtension.h"; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 		DC8071EC22C5E7FB00436EA6 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				DC3E1C0B22CCE6D300BD51A5 /* NSObject+Model.h */,
+				DC3E1C0C22CCE6D300BD51A5 /* NSObject+Model.m */,
 				DC3FDC3C22C73CE30045B5E9 /* NSObject+Invocation.h */,
 				DC3FDC3922C73CE30045B5E9 /* NSObject+Invocation.m */,
 				DC3FDC3822C73CE30045B5E9 /* UIButton+LPFExtension.h */,
@@ -270,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC6AC30522C4443A002941CF /* RSSegmentControl.m in Sources */,
+				DC3E1C0D22CCE6D300BD51A5 /* NSObject+Model.m in Sources */,
 				DC57090E22C502E400FB4580 /* LPFExtendView.m in Sources */,
 				DC1A404122C21F4200473701 /* ViewController.m in Sources */,
 				DC6AC30222C372AE002941CF /* RSSearchTextField.m in Sources */,

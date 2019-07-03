@@ -81,14 +81,16 @@ void UncaughtExceptionHandler(NSException *exception){
     if (isSuccess) {
         NSLog(@"文件夹创建成功");
         NSString *filepath = [crashPath stringByAppendingPathComponent:crashnameWithFileType];
-        NSMutableDictionary *logs = [NSMutableDictionary dictionaryWithContentsOfFile:filepath];
+//        NSMutableDictionary *logs = [NSMutableDictionary dictionaryWithContentsOfFile:filepath];
+        NSMutableArray *logs = [NSMutableArray arrayWithContentsOfFile:filepath];
         if (!logs) {
-            logs = [[NSMutableDictionary alloc] init];
+            logs = [NSMutableArray array];
         }
         
         //日志信息
         NSDictionary *infos = [info lpf_dict];
-        logs[info.crashName] = infos;
+
+        [logs insertObject:infos atIndex:0];
         BOOL writeOK = [logs writeToFile:filepath atomically:YES];
         NSLog(@"write result = %d,filePath = %@",writeOK, filepath);
         return writeOK;
@@ -141,10 +143,20 @@ void UncaughtExceptionHandler(NSException *exception){
     NSArray *array = [manager contentsOfDirectoryAtPath:crashPath error:nil];
     NSMutableArray *result = [NSMutableArray array];
     if (array.count == 0) return nil;
+    [array enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
+
+    }];
+    
     for (NSString *name in array) {
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[crashPath stringByAppendingPathComponent:name]];
-        LPFCrashInfo *info = [LPFCrashInfo lpf_modelWithDict:dict];
-        [result addObject:dict];
+        NSArray *crashes = [NSArray arrayWithContentsOfFile:[crashPath stringByAppendingPathComponent:name]];
+       
+        if (!crashes.count) {
+            continue;
+        }
+        LPFCrashInfo *info = [LPFCrashInfo lpf_modelWithDictionary:crashes.firstObject];
+        [result addObject:info];
+        
+        NSLog(@"%@", crashes);
     }
     return result;
 }

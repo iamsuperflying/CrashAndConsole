@@ -49,16 +49,20 @@
         NSLog(@"哈哈哈哈哈哈");
     });
     
+//    NSArray *arr = @[];
+    
     dispatch_queue_t q = dispatch_queue_create([@"com.flying.test" UTF8String], NULL);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), q, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), q, ^{
         NSLog(@"heheheheheeh");
+//        arr[1];
     });
     
     
     
     NSLog(@"%@", NSStringFromClass([UIApplication sharedApplication].delegate.window.rootViewController.class));
     
-    [LPFCrashCaught lpf_getCrashLogs];
+//    [LPFCrashCaught lpf_clearCrashLogs];
+//    [LPFCrashCaught lpf_getCrashLogs];
 //     [self performSelector:NSSelectorFromString(@"write crash from model") withObject:nil afterDelay:10];
 //
 //    [self.segmentControl addSegmentWithTitle:@"Console" image:[UIImage imageNamed:@"rizhi"]];

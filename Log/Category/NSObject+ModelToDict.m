@@ -91,107 +91,55 @@
     return [NSNull null];
 }
 
-+ (NSArray *)lpf_objcProperties {
-    /* 获取关联对象 */
-    NSArray *ptyList = objc_getAssociatedObject(self, _cmd);
++ (nullable instancetype)lpf_modelWithDictionary:(NSDictionary *)dictionary {
     
-    /* 如果 ptyList 有值,直接返回 */
-    if (ptyList) {
-        return ptyList;
-    }
-  
-    unsigned int outCount = 0;
-    /* retain, creat, copy 需要release */
-    objc_property_t *propertyList = class_copyPropertyList([self class], &outCount);
-    
-    NSMutableArray *mtArray = [NSMutableArray array];
-    
-    for (unsigned int i = 0; i < outCount; i++) {
+    id model = [[self alloc] init];
+    unsigned int count = 0;
+    objc_property_t *propertyList = class_copyPropertyList([self class], &count);
+    for (unsigned int i = 0; i < count; i++) {
         objc_property_t property = propertyList[i];
         const char *propertyName_C = property_getName(property);
         NSString *propertyName_OC = [NSString stringWithCString:propertyName_C encoding:NSUTF8StringEncoding];
-        [mtArray addObject:propertyName_OC];
-    }
-
-    objc_setAssociatedObject(self, _cmd, mtArray.copy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    /* 释放 */
-    free(propertyList);
-    return mtArray.copy;
-}
-
-+ (instancetype)lpf_modelWithDict:(NSDictionary *)dict {
-
-    id model = [[self alloc] init];
-    
-    NSArray *propertyList = [self lpf_objcProperties];
-    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([propertyList containsObject:key]) {
         
-            NSString *ivarType;
+        id value = dictionary[propertyName_OC];
+        
+        
+        Class type = getPropertType(property);
+        
+        // 值是字典,成员属性的类型不是字典,才需要转换成模型
+        if ([value isKindOfClass:[NSDictionary class]]
+            && ![NSStringFromClass(type) containsString:@"NS"]) {
             
-            if ([obj isKindOfClass:NSClassFromString(@"__NSCFString")]) {
-                ivarType = @"NSString";
-            }else if ([obj isKindOfClass:NSClassFromString(@"__NSCFArray")]){
-                ivarType = @"NSArray";
-            }else if ([obj isKindOfClass:NSClassFromString(@"__NSCFNumber")]){
-                ivarType = @"int";
-            }else if ([obj isKindOfClass:NSClassFromString(@"__NSCFDictionary")]){
-                ivarType = @"NSDictionary";
+            if(type) {
+                value = [type lpf_modelWithDictionary:value];
             }
             
-            if ([obj isKindOfClass:NSClassFromString(@"__NSCFDictionary")]) { //  是字典对象,并且属性名对应类型是自定义类型
-                // value:user字典 -> User模型
-                // 获取模型(user)类对象
-                NSString *ivarType = [self lpf_dictWithModelClass][key];
-                Class modalClass = NSClassFromString(ivarType);
-
-                // 字典转模型
-                if (modalClass) {
-                    // 字典转模型 user
-                    obj = [modalClass lpf_modelWithDict:obj];
-                }
-
-            }
-
-//            // 三级转换：NSArray中也是字典，把数组中的字典转换成模型.
-//            // 判断值是否是数组
-//            if ([obj isKindOfClass:[NSArray class]]) {
-//                // 判断对应类有没有实现字典数组转模型数组的协议
-//                if ([self respondsToSelector:@selector(arrayContainModelClass)]) {
-//
-//                    // 转换成id类型，就能调用任何对象的方法
-//                    id idSelf = self;
-//
-//                    // 获取数组中字典对应的模型
-//                    NSString *type =  [idSelf arrayContainModelClass][key];
-//
-//                    // 生成模型
-//                    Class classModel = NSClassFromString(type);
-//                    NSMutableArray *arrM = [NSMutableArray array];
-//                    // 遍历字典数组，生成模型数组
-//                    for (NSDictionary *dict in obj) {
-//                        // 字典转模型
-//                        id model =  [classModel lpf_modelWithDict:dict];
-//                        [arrM addObject:model];
-//                    }
-//
-//                    // 把模型数组赋值给value
-//                    obj = arrM;
-//
-//                }
-//            }
-            
-            // KVC字典转模型
-            if (obj) {
-                /* 说明属性存在,可以使用 KVC 设置数值 */
-                [model setValue:obj forKey:key];
-            }
+        }
+        if (value) {
+            [model setValue:value forKey:propertyName_OC];
         }
         
-    }];
+        
+    }
     
-    /* 返回对象 */
+    free(propertyList);
+    
     return model;
+    
+    
+    
+}
+
+
+Class getPropertType(objc_property_t property) {
+    const char * type = property_getAttributes(property);
+    NSString *attr = [NSString stringWithCString:type encoding:NSUTF8StringEncoding];
+    NSArray *slices = [attr componentsSeparatedByString:@"\""];
+    if ([attr hasPrefix:@"T@"] && slices.count > 1) {
+        NSString * typeClassName = slices[1];
+        return NSClassFromString(typeClassName);
+    }
+    return nil;
 }
 
 @end

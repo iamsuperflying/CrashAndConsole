@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary *)lpf_dict;
 - (id)idFromObject:(nonnull id)object;
-+ (instancetype)lpf_modelWithDict:(NSDictionary *)dict;
+
++ (nullable instancetype)lpf_modelWithDictionary:(NSDictionary *)dictionary;
 
 @end
 
