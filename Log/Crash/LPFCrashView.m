@@ -10,6 +10,7 @@
 #import "LPFGeneric.h"
 #import "UIButton+LPFExtension.h"
 #import "UIView+Extension.h"
+#import "LPFCrashInfo.h"
 
 RSConstString KCrashShareEventName = @"KCrashShareEventName";
 
@@ -64,10 +65,10 @@ RSConstString KCrashShareEventName = @"KCrashShareEventName";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         
-        NSDictionary *dic = self.crashes[indexPath.row];
+        LPFCrashInfo *crashInfo = self.crashes[indexPath.row];
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        cell.textLabel.text = rs_format(@"%@", dic.allKeys.firstObject);
+        cell.textLabel.text = crashInfo.crashName;
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.textColor = [UIColor whiteColor];
 //        cell.contentView.backgroundColor = [UIColor clearColor];
@@ -84,6 +85,11 @@ RSConstString KCrashShareEventName = @"KCrashShareEventName";
         self.bottomView.y = self.height - self.bottomHeight;
         tableView.alpha = 0;
     }];
+}
+
+- (void)setCrashes:(NSArray<LPFCrashInfo *> *)crashes {
+    _crashes = crashes;
+    [self.crashList reloadData];
 }
 
 - (UITableView *)crashList {

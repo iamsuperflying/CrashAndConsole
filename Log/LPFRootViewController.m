@@ -102,26 +102,26 @@
     [self presentViewController:a animated:YES completion:nil];
 }
 
-- (void)preview {
-    _previewController = [[QLPreviewController alloc] init];
-    _previewController.dataSource = self;
-    _previewController.delegate = self;
-    [self presentViewController:_previewController animated:YES completion:nil];
-}
-
--(NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
-    return 1;
-}
-
--(id)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
-    NSString *crashPath = [LPFCrashCaught lpf_getCrashPath];
-    //    [crashPath con]
-    NSURL *shareURL = [NSURL fileURLWithPath:crashPath];
-    return shareURL;
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"aa" ofType:@"doc"];
-    NSURL *myDoucment = [NSURL fileURLWithPath:path];
-    return myDoucment;
-}
+//- (void)preview {
+//    _previewController = [[QLPreviewController alloc] init];
+//    _previewController.dataSource = self;
+//    _previewController.delegate = self;
+//    [self presentViewController:_previewController animated:YES completion:nil];
+//}
+//
+//-(NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
+//    return 1;
+//}
+//
+//-(id)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
+//    NSString *crashPath = [LPFCrashCaught lpf_getCrashPath];
+//    //    [crashPath con]
+//    NSURL *shareURL = [NSURL fileURLWithPath:crashPath];
+//    return shareURL;
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"aa" ofType:@"doc"];
+//    NSURL *myDoucment = [NSURL fileURLWithPath:path];
+//    return myDoucment;
+//}
 
 #pragma mark - UIDocumentInteractionControllerDelegate
 -(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{

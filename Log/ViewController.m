@@ -62,7 +62,8 @@
     NSLog(@"%@", NSStringFromClass([UIApplication sharedApplication].delegate.window.rootViewController.class));
     
 //    [LPFCrashCaught lpf_clearCrashLogs];
-//    [LPFCrashCaught lpf_getCrashLogs];
+//    NSArray *arr = [LPFCrashCaught lpf_getCrashLogs];
+//    NSLog(@"%@", arr);
 //     [self performSelector:NSSelectorFromString(@"write crash from model") withObject:nil afterDelay:10];
 //
 //    [self.segmentControl addSegmentWithTitle:@"Console" image:[UIImage imageNamed:@"rizhi"]];

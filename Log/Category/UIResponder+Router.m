@@ -14,4 +14,14 @@
     [[self nextResponder] rs_routerEventWithName:eventName objects:objects];
 }
 
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    NSLog(@"用户点击步骤开始 %@", NSStringFromClass(self.class));
+//    [[self nextResponder] touchesBegan:touches withEvent:event];
+//}
+//
+//- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    NSLog(@"用户点击步骤结束 %@", NSStringFromClass(self.class));
+//    [self.nextResponder touchesEnded:touches withEvent:event];
+//}
+
 @end

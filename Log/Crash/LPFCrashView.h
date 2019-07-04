@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIResponder+Router.h"
+@class LPFCrashInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,7 @@ RSExtern KCrashShareEventName;
 
 @interface LPFCrashView : UIView
 
-@property(nonatomic, strong) NSArray<NSDictionary *> *crashes;
+@property(nonatomic, strong) NSArray<LPFCrashInfo *> *crashes;
 
 @end
 

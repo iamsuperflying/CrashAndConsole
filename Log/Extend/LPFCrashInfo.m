@@ -7,46 +7,66 @@
 //
 
 #import "LPFCrashInfo.h"
-#import <objc/runtime.h>
+#import "LPFGeneric.h"
 
 @implementation LPFCrashInfo
+//
+//{
+//    BuildMachineOSBuild = 19A487l;
+//    CFBundleDevelopmentRegion = en;
+//    CFBundleExecutable = Log;
+//    CFBundleIdentifier = "com.flying.test";
+//    CFBundleInfoDictionaryVersion = "6.0";
+//    CFBundleName = Log;
+//    CFBundleNumericVersion = 16809984;
+//    CFBundlePackageType = APPL;
+//    CFBundleShortVersionString = "1.0";
+//    CFBundleSupportedPlatforms =     (
+//                                      iPhoneSimulator
+//                                      );
+//    CFBundleVersion = 1;
+//    DTCompiler = "com.apple.compilers.llvm.clang.1_0";
+//    DTPlatformBuild = 11M337n;
+//    DTPlatformName = iphonesimulator;
+//    DTPlatformVersion = "13.0";
+//    DTSDKBuild = 17A5508l;
+//    DTSDKName = "iphonesimulator13.0";
+//    DTXcode = 1100;
+//    DTXcodeBuild = 11M337n;
+//    LSRequiresIPhoneOS = 1;
+//    MinimumOSVersion = "9.0";
+//    UIDeviceFamily =     (
+//                          1,
+//                          2
+//                          );
+//    UILaunchStoryboardName = LaunchScreen;
+//    UIMainStoryboardFile = Main;
+//    UIRequiredDeviceCapabilities =     (
+//                                        armv7
+//                                        );
+//    UISupportedInterfaceOrientations =     (
+//                                            UIInterfaceOrientationPortrait,
+//                                            UIInterfaceOrientationLandscapeLeft,
+//                                            UIInterfaceOrientationLandscapeRight
+//                                            );
+//}
 
-- (NSDictionary *)lpf_toDict {
-    
-    unsigned int count = 0;
-    
-    objc_property_t *properties = class_copyPropertyList([self class], &count);
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:count];
-    
-    for (int i = 0; i < count; i++) {
-        NSString *key = [NSString stringWithUTF8String:property_getName(properties[i])];
-        id value = [self valueForKey:key];
-        
-        if (key && value) {
-            if ([value isKindOfClass:[NSString class]]
-                || [value isKindOfClass:[NSNumber class]]) {
-                [dict setObject:value forKey:key];
-            }
-            else if ([value isKindOfClass:[NSArray class]]
-                     || [value isKindOfClass:[NSDictionary class]]) {
-                [dict setObject:[self idFromObject:value] forKey:key];
-            }
-            else {
-                [dict setObject:[value lpf_dict] forKey:key];
-            }
-        } else if (key && !value) {
-            [dict setObject:[NSNull null] forKey:key];
-        }
-    }
-    
-    free(properties);
-    return dict;
-    
-}
-
--(NSDictionary *)lpf_dictWithModelClass {
-    return @{@"exception": @"LPFException", @"deviceInfo": @"LPFDeviceInfo"};
-}
+//- (NSAttributedString *)crash {
+//    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+//    //设备信息
+//    /*
+//    NSString *appname = infoDict[@"CFBundleName"];
+//    NSString *platformVersion = infoDict[@"DTPlatformVersion"];
+//    NSString *version = infoDict[@"CFBundleShortVersionString"];
+//    NSArray *deviceCapabilities = infoDict[@"UIRequiredDeviceCapabilities"];
+//     */
+//    
+//    NSString *appName = rs_format(@"应用程序: %@\n", infoDict[@"CFBundleName"]);
+//    NSString *platformVersion = rs_format(@"设备名称: %@(%@)\n", infoDict[@"DTPlatformVersion"], infoDict[@"DTPlatformVersion"]);
+//    NSString *version = rs_format(@"软件版本: %@(%@)\n", infoDict[@"DTPlatformVersion"]);
+//    
+//    
+//}
 
 - (LPFException *)exception {
     if (!_exception) {

@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) LPFDeviceInfo *deviceInfo;
 @property(nonatomic, strong) LPFException *exception;
 
-- (NSDictionary *)lpf_toDict;
+- (NSAttributedString *)crash;
 
 @end
 
