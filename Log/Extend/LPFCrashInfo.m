@@ -64,6 +64,7 @@
 //    NSString *appName = rs_format(@"应用程序: %@\n", infoDict[@"CFBundleName"]);
 //    NSString *platformVersion = rs_format(@"设备名称: %@(%@)\n", infoDict[@"DTPlatformVersion"], infoDict[@"DTPlatformVersion"]);
 //    NSString *version = rs_format(@"软件版本: %@(%@)\n", infoDict[@"DTPlatformVersion"]);
+//    NSArray *deviceCapabilities = infoDict[@"UIRequiredDeviceCapabilities"];
 //    
 //    
 //}

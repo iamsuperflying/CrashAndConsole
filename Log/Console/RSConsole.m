@@ -7,6 +7,7 @@
 //
 
 #import "RSConsole.h"
+#import "LPFGeneric.h"
 #import "RSLogMessage.h"
 #import "UIView+Extension.h"
 #import "RSSearchTextField.h"
@@ -86,32 +87,34 @@ static const char * KArrayQueue = "com.console.arrayQueue";
 
 @implementation RSConsole
 
-static RSConsole *_instance;
+LPFSingleton(Console)
 
-+ (instancetype)console {
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [[RSConsole alloc] init];
-    });
-    return _instance;
-}
+static id _instance;
 
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [super allocWithZone:zone];
-    });
-    return _instance;
-}
-
-- (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    return _instance;
-}
-
-- (nonnull id)mutableCopyWithZone:(nullable NSZone *)zone {
-    return _instance;
-}
+//+ (instancetype)console {
+//
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        _instance = [[self alloc] init];
+//    });
+//    return _instance;
+//}
+//
+//+ (instancetype)allocWithZone:(struct _NSZone *)zone {
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        _instance = [super allocWithZone:zone];
+//    });
+//    return _instance;
+//}
+//
+//- (nonnull id)copyWithZone:(nullable NSZone *)zone {
+//    return _instance;
+//}
+//
+//- (nonnull id)mutableCopyWithZone:(nullable NSZone *)zone {
+//    return _instance;
+//}
 
 //- (instancetype)init {
 //    self = [super init];
@@ -134,7 +137,7 @@ static RSConsole *_instance;
 //}
 
 + (void)hide {
-    [[self console] removeFromSuperview];
+    [[self sharedConsole] removeFromSuperview];
 }
 
 - (void)setUpUI {

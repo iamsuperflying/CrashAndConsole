@@ -21,7 +21,8 @@ typedef NSArray<RSLogMessage *> * _Nonnull (^UpdateLogsBlock)(void);
 @property(nonatomic, assign, readonly, getter=isShow) BOOL show;
 @property (nonatomic, copy) UpdateLogsBlock update;
 
-+ (instancetype)console;
+LPFSingletonInterface(Console)
+
 + (void)show;
 + (void)hide;
 - (void)updateLogs:(NSArray<RSLogMessage *> *)logs;

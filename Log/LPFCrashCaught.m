@@ -28,8 +28,8 @@ static inline NSString * lpf_docPath() {
     NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
 }
 void UncaughtExceptionHandler(NSException *exception){
+   [LPFCrashCaught screenShot];
     if ([LPFCrashCaught writeCrashFileToDocumentsException:exception]) {
-         NSLog(@"Crash logs write ok!");
     }
     
 //    if (!exception)return;
@@ -47,6 +47,97 @@ void UncaughtExceptionHandler(NSException *exception){
 //    if([LPFCrashCaught writeCrashFileOnDocumentsException:dict]){
 //        NSLog(@"Crash logs write ok!");
 //    }
+}
+
++ (void)screenShot {
+
+    /**
+     var shouldRun = true
+     
+     let runLoop = CFRunLoopGetCurrent()
+     
+     let alertCtrl = UIAlertController(title: "Oops", message: "Your app crashed! OAO", preferredStyle: .Alert)
+     alertCtrl.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (_) in
+     shouldRun = false
+     }))
+     
+     guard let rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController else {
+     return
+     }
+     
+     rootViewController.presentViewController(alertCtrl, animated: true, completion: nil)
+     
+     let allModesAO = CFRunLoopCopyAllModes(runLoop) as [AnyObject]
+     guard let allModes = allModesAO as? [CFStringRef] else {
+     return
+     }
+     
+     while (shouldRun) {
+     for mode in allModes {
+     CFRunLoopRunInMode(mode, 0.001, false)
+     }
+     }
+     */
+    
+    UIView *screenWindow = [[UIApplication sharedApplication].delegate.window.rootViewController view];
+    UIGraphicsBeginImageContextWithOptions(screenWindow.frame.size, NO, [UIScreen mainScreen].scale);
+    [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+//    return image;
+//
+//    UIGraphicsBeginImageContext([UIScreen mainScreen].bounds.size);
+//    [[UIApplication sharedApplication].delegate.window.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    NSLog(@"image %@", image);
+    UIImage *i = image;
+    
+    
+    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSString *path = [lpf_docPath() stringByAppendingPathComponent:LPFCrashFileDirectory];
+    NSLog(@"path %@", path);
+    [data writeToFile:[path stringByAppendingPathComponent:@"pic.jpg"] atomically:YES];
+    
+    
+    BOOL shouldRun = YES;
+    CFRunLoopRef  runloop = CFRunLoopGetCurrent();
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"崩就崩" message:@"起死回生" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:rs_format(@"%@", image) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [action setValue:image forKey:@"image"];
+    
+    [alert addAction:action];
+    
+    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert animated:YES completion:nil];
+
+    
+ 
+    
+    CFArrayRef allModesAO = CFRunLoopCopyAllModes(runloop);
+    while (shouldRun) {
+        for (NSString *mode in (__bridge NSArray *)allModesAO) {
+            CFRunLoopRunInMode((CFStringRef)mode, 0.001, false);
+        }
+    }
+    
+    CFRelease(allModesAO);
+    
+}
+// 指定回调方法
+- (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void*) contextInfo{
+    
+    NSString *msg = nil ;
+    if(error != NULL){
+        msg = @"保存图片失败" ;
+    }else{
+        msg = @"保存图片成功";
+    }
 }
 
 + (BOOL)writeCrashFileToDocumentsException:(NSException *)exception {

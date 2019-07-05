@@ -12,8 +12,6 @@
 #import <UIKit/UIKit.h>
 #import <pthread.h>
 
-
-
 CG_INLINE void dispatch_async_on_main_queue(void (^block)(void)) {
     
     if (pthread_main_np()) {
@@ -87,6 +85,38 @@ CG_INLINE CGFloat rs_bottomHeight() {
 
 CG_INLINE CGRect rs_fullScreenFrame() {
     return CGRectMake(0, 0, rs_screenWidth(), rs_screenHeight());
+}
+
+//+ (instancetype)shared##name;
+
+#define LPFSingletonInterface(class) +(instancetype) shared##class;
+
+#define LPFSingleton(name)\
+\
+static id _instance; \
+\
++ (instancetype)shared##name { \
+    static dispatch_once_t onceToken; \
+    dispatch_once(&onceToken, ^{ \
+    _instance = [[self alloc] init]; \
+    }); \
+    return _instance; \
+} \
+\
++ (instancetype)allocWithZone:(struct _NSZone *)zone { \
+    static dispatch_once_t onceToken; \
+    dispatch_once(&onceToken, ^{ \
+        _instance = [super allocWithZone:zone]; \
+    }); \
+    return _instance;\
+} \
+\
+- (nonnull id)copyWithZone:(nullable NSZone *)zone { \
+    return _instance; \
+} \
+ \
+- (nonnull id)mutableCopyWithZone:(nullable NSZone *)zone { \
+    return _instance; \
 }
 
 #endif /* LPFGeneric_h */

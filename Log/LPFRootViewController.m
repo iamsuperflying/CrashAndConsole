@@ -36,7 +36,7 @@
     self.view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.effectview];
 
-    self.console = [RSConsole console];
+    self.console = [RSConsole sharedConsole];
     self.crashView = [[LPFCrashView alloc] init];
     NSArray *crashes = [LPFCrashCaught lpf_getCrashLogs];
     self.crashView.crashes = [LPFCrashCaught lpf_getCrashLogs];

@@ -287,8 +287,8 @@
 #pragma mark -Setter
 - (void)setLogs:(NSArray<RSLogMessage *> *)logs {
     _logs = logs;
-    if ([RSConsole console].isShow) {
-        [[RSConsole console] updateLogs:logs];
+    if ([RSConsole sharedConsole].isShow) {
+        [[RSConsole sharedConsole] updateLogs:logs];
     }
 }
 

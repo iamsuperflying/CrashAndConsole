@@ -49,12 +49,12 @@
         NSLog(@"哈哈哈哈哈哈");
     });
     
-//    NSArray *arr = @[];
+    NSArray *arr = @[];
     
     dispatch_queue_t q = dispatch_queue_create([@"com.flying.test" UTF8String], NULL);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), q, ^{
         NSLog(@"heheheheheeh");
-//        arr[1];
+        arr[1];
     });
     
     
