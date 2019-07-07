@@ -11,6 +11,7 @@
 #import "RSLogMessage.h"
 #import "RSSegmentControl.h"
 #import "LPFCrashCaught.h"
+#import "LPFCrashInfo.h"
 
 //@interface RSSegmentButton : UIButton
 //
@@ -34,6 +35,7 @@
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet RSSegmentControl *segmentControl;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -54,7 +56,7 @@
     dispatch_queue_t q = dispatch_queue_create([@"com.flying.test" UTF8String], NULL);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), q, ^{
         NSLog(@"heheheheheeh");
-        arr[1];
+//        arr[1];
     });
     
     
@@ -62,8 +64,13 @@
     NSLog(@"%@", NSStringFromClass([UIApplication sharedApplication].delegate.window.rootViewController.class));
     
 //    [LPFCrashCaught lpf_clearCrashLogs];
-//    NSArray *arr = [LPFCrashCaught lpf_getCrashLogs];
-//    NSLog(@"%@", arr);
+    NSArray *logs = [LPFCrashCaught lpf_getCrashLogs];
+    LPFCrashInfo *info = logs.firstObject;
+    NSData *data = [[NSData alloc] initWithBase64Encoding:info.crashImage];
+    UIImage *image = [UIImage imageWithData:data];
+    
+    self.imageView.image = image;
+    NSLog(@"%@", arr);
 //     [self performSelector:NSSelectorFromString(@"write crash from model") withObject:nil afterDelay:10];
 //
 //    [self.segmentControl addSegmentWithTitle:@"Console" image:[UIImage imageNamed:@"rizhi"]];

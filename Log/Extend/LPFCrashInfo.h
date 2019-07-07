@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LPFCrashInfo : NSObject
 
 @property(nonatomic, strong) NSString *crashName;
+@property(nonatomic, strong) NSString *crashImage;
 @property(nonatomic, strong) LPFDeviceInfo *deviceInfo;
 @property(nonatomic, strong) LPFException *exception;
 
