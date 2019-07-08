@@ -65,11 +65,6 @@
     
 //    [LPFCrashCaught lpf_clearCrashLogs];
     NSArray *logs = [LPFCrashCaught lpf_getCrashLogs];
-    LPFCrashInfo *info = logs.firstObject;
-    NSData *data = [[NSData alloc] initWithBase64Encoding:info.crashImage];
-    UIImage *image = [UIImage imageWithData:data];
-    
-    self.imageView.image = image;
     NSLog(@"%@", arr);
 //     [self performSelector:NSSelectorFromString(@"write crash from model") withObject:nil afterDelay:10];
 //

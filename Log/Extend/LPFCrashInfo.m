@@ -51,23 +51,43 @@
 //                                            );
 //}
 
-//- (NSAttributedString *)crash {
-//    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-//    //设备信息
-//    /*
-//    NSString *appname = infoDict[@"CFBundleName"];
-//    NSString *platformVersion = infoDict[@"DTPlatformVersion"];
-//    NSString *version = infoDict[@"CFBundleShortVersionString"];
-//    NSArray *deviceCapabilities = infoDict[@"UIRequiredDeviceCapabilities"];
-//     */
-//    
-//    NSString *appName = rs_format(@"应用程序: %@\n", infoDict[@"CFBundleName"]);
-//    NSString *platformVersion = rs_format(@"设备名称: %@(%@)\n", infoDict[@"DTPlatformVersion"], infoDict[@"DTPlatformVersion"]);
-//    NSString *version = rs_format(@"软件版本: %@(%@)\n", infoDict[@"DTPlatformVersion"]);
-//    NSArray *deviceCapabilities = infoDict[@"UIRequiredDeviceCapabilities"];
-//    
-//    
-//}
+- (NSAttributedString *)crash {
+    
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    //设备信息
+    /*
+    NSString *appname = infoDict[@"CFBundleName"];
+    NSString *platformVersion = infoDict[@"DTPlatformVersion"];
+    NSString *version = infoDict[@"CFBundleShortVersionString"];
+    NSArray *deviceCapabilities = infoDict[@"UIRequiredDeviceCapabilities"];
+     */
+    
+    NSString *appName = rs_format(@"应用程序: %@\n", infoDict[@"CFBundleName"]);
+    NSString *platformVersion = rs_format(@"设备名称: %@(%@)\n", infoDict[@"DTPlatformVersion"], infoDict[@"DTPlatformVersion"]);
+    NSString *version = rs_format(@"软件版本: %@(%@)\n", infoDict[@"DTPlatformVersion"]);
+    NSArray *deviceCapabilitiesArr = infoDict[@"UIRequiredDeviceCapabilities"];
+    NSString *deviceCapabilities = [deviceCapabilitiesArr componentsJoinedByString:@","];
+    NSString *crash = rs_format(@"%@\n%@\n%@\n%@\n", appName, platformVersion, version, deviceCapabilities);
+    
+    NSDictionary<NSAttributedStringKey, id> *attrs = @{
+                                                       NSForegroundColorAttributeName: [UIColor blackColor],
+                                                       NSFontAttributeName: [UIFont systemFontOfSize:14]
+                                                       };
+    NSMutableAttributedString *crashAttrM = [[NSMutableAttributedString alloc] initWithString:crash
+                                                                                   attributes:attrs];
+    if (self.crashImage) {
+    // 文字中加图片
+    NSTextAttachment *attachment=[[NSTextAttachment alloc] init];
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:self.crashImage options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    UIImage *crashImage = [UIImage imageWithData:data];
+    attachment.image = crashImage;
+    attachment.bounds = CGRectMake(0, 0, crashImage.size.width, crashImage.size.height);
+    NSAttributedString *attr = [NSAttributedString attributedStringWithAttachment:attachment];
+    [crashAttrM appendAttributedString:attr];
+    }
+    return crashAttrM.copy;
+    
+}
 
 - (LPFException *)exception {
     if (!_exception) {

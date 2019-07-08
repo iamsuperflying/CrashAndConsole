@@ -10,7 +10,7 @@
 #import "LPFGeneric.h"
 #import "LPFCrashInfo.h"
 
-NSString * const LPFCrashFileDirectory = @"LPFCrashFiles"; //你的项目中自定义文件夹名
+NSString * const LPFCrashFileDirectory = @"LPFCrashFiles";
 
 static inline NSString * lpf_docPath() {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -52,12 +52,12 @@ void UncaughtExceptionHandler(NSException *exception){
     __block NSString *screenShot;
     dispatch_async_on_main_queue(^{
         UIWindow *screenWindow = [UIApplication sharedApplication].delegate.window;
-        UIGraphicsBeginImageContextWithOptions(screenWindow.frame.size, NO, [UIScreen mainScreen].scale);
+        UIGraphicsBeginImageContextWithOptions(screenWindow.frame.size, NO, 1);
         [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         NSLog(@"image %@", image);
-        NSData *data = UIImageJPEGRepresentation(image, 1);
+        NSData *data = UIImagePNGRepresentation(image);
         screenShot = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     });
     

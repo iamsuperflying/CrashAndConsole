@@ -79,7 +79,8 @@ RSConstString KCrashShareEventName = @"KCrashShareEventName";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.crashTV.text = rs_format(@"%@", self.crashes[indexPath.row]);
+    self.crashTV.attributedText = [self.crashes[indexPath.row] crash];
+//    text = rs_format(@"%@", self.crashes[indexPath.row]);
     [UIView animateWithDuration:0.25 animations:^{
         self.crashTV.x = 0;
         self.bottomView.y = self.height - self.bottomHeight;
